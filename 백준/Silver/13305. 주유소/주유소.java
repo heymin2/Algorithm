@@ -6,8 +6,8 @@ public class Main {
 
         int N = sc.nextInt();
 
-        int[] distance = new int[N-1];
-        int[] pay = new int[N];
+        long[] distance = new long[N-1];
+        long[] pay = new long[N];
 
         for(int i = 0; i < N-1; i++){
             distance[i] = sc.nextInt();
@@ -17,8 +17,8 @@ public class Main {
             pay[i] = sc.nextInt();
         }
 
-        int sum = pay[0] * distance[0];
-        int cntPay = pay[0];
+        long sum = pay[0] * distance[0];
+        long cntPay = pay[0];
 
         for(int i = 1; i < N-1; i++){
             if(cntPay > pay[i]) cntPay = pay[i];
