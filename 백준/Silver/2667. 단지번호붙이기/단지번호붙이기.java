@@ -36,10 +36,16 @@ public class Main {
         }
 
         list.sort(null);
-        System.out.println(list.size());
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(list.size());
+
         for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
+            sb.append("\n").append(list.get(i));
         }
+
+        System.out.println(sb);
     }
 
     static void dfs(int x, int y) {
