@@ -16,6 +16,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int T = Integer.parseInt(br.readLine());
+        StringBuffer sb = new StringBuffer();
 
         for (int t = 0; t < T; t++) {
             I = Integer.parseInt(br.readLine());
@@ -32,8 +33,9 @@ public class Main {
             endX = Integer.parseInt(st.nextToken());
             endY = Integer.parseInt(st.nextToken());
 
-            System.out.println(bfs());
+            sb.append(bfs()).append('\n');
         }
+        System.out.println(sb);
     }
 
     static int bfs() {
@@ -49,13 +51,12 @@ public class Main {
             }
 
             for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    int nextX = c.x + x[i];
-                    int nextY = c.y + y[i];
-                    if (nextX >= 0 && nextY >= 0 && nextX < I && nextY < I && !visit[nextX][nextY]) {
-                        visit[nextX][nextY] = true;
-                        q.offer(new Chess(nextX, nextY, c.cnt + 1));
-                    }
+                int nextX = c.x + x[i];
+                int nextY = c.y + y[i];
+                if (nextX >= 0 && nextY >= 0 && nextX < I && nextY < I && !visit[nextX][nextY]) {
+                    visit[nextX][nextY] = true;
+                    q.offer(new Chess(nextX, nextY, c.cnt + 1));
+
                 }
             }
         }
@@ -64,9 +65,7 @@ public class Main {
 }
 
 class Chess {
-    int x;
-    int y;
-    int cnt;
+    int x, y, cnt;
 
     public Chess(int x, int y, int cnt) {
         this.x = x;
