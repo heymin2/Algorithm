@@ -40,7 +40,7 @@ public class Main {
                 q.offer(new P(up, now.cnt + 1));
             }
 
-            if (down >= 1 && !visit[down]) {
+            if (down > 0 && !visit[down]) {
                 visit[down] = true;
                 q.offer(new P(down, now.cnt + 1));
             }
