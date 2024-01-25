@@ -1,55 +1,61 @@
-import java.util.*;
- 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
 public class Main {
+    static int F, S, G, U, D;
+    static boolean[] visit;
 
-    static int f, s, g, u, d;
-    static boolean[] visited;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        F = Integer.parseInt(st.nextToken());
+        S = Integer.parseInt(st.nextToken());
+        G = Integer.parseInt(st.nextToken());
+        U = Integer.parseInt(st.nextToken());
+        D = Integer.parseInt(st.nextToken());
 
-        f = scan.nextInt();
-        s = scan.nextInt();
-        g = scan.nextInt();
-        u = scan.nextInt();
-        d = scan.nextInt();
- 
-        visited = new boolean[f + 1];
-        int result = bfs();
+        visit = new boolean[F + 1];
 
-        if(result < 0) System.out.println("use the stairs");
-        else System.out.println(result);
-    }
- 
-    public static int bfs() {
-        Queue<Node> q = new LinkedList<>();
-        q.offer(new Node(s, 0));
-        visited[s] = true;
+        Queue<P> q = new LinkedList<>();
+        q.offer(new P(S, 0));
+        visit[S] = true;
 
-        while(!q.isEmpty()) {
-            Node current = q.poll();
-            if(current.x == g) return current.cost;
+        while (!q.isEmpty()) {
+            P now = q.poll();
+            int up = now.s + U;
+            int down = now.s - D;
 
-            if(current.x + u <= f && visited[current.x + u] == false) {
-                q.offer(new Node(current.x + u, current.cost + 1));
-                visited[current.x + u] = true;
+            if (now.s == G) {
+                System.out.println(now.cnt);
+                System.exit(0);
             }
-            if(current.x - d >= 1 && visited[current.x - d] == false) {
-                q.offer(new Node(current.x - d, current.cost + 1));
-                visited[current.x - d] = true;
+
+            if (up <= F && !visit[up]) {
+                visit[up] = true;
+                q.offer(new P(up, now.cnt + 1));
+            }
+
+            if (down >= 1 && !visit[down]) {
+                visit[down] = true;
+                q.offer(new P(down, now.cnt + 1));
             }
         }
-        return -1;
-    }
 
-    public static class Node {
-        int x;
-        int cost;
-
-        public Node(int x, int cost) {
-            this.x = x;
-            this.cost = cost;
-        }
+        System.out.println("use the stairs");
     }
 }
 
+class P {
+    int s;
+    int cnt;
+
+    public P(int s, int cnt) {
+        this.s = s;
+        this.cnt = cnt;
+    }
+}
