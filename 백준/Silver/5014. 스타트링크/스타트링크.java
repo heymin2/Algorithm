@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 public class Main {
     static int F, S, G, U, D;
     static boolean[] visit;
+    static Queue<P> q = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,7 +22,6 @@ public class Main {
 
         visit = new boolean[F + 1];
 
-        Queue<P> q = new LinkedList<>();
         q.offer(new P(S, 0));
         visit[S] = true;
 
