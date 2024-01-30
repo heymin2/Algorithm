@@ -27,7 +27,7 @@ public class Main {
     static void re(int cnt) {
         if (cnt == M) {
             for (int i = 0; i < M; i++) {
-                sb.append(arr[i] + " ");
+                sb.append(arr[i]).append(" ");
             }
             sb.append("\n");
             return;
