@@ -4,7 +4,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[] arr, sum;
+    static int[] sum;
     static int start, end;
     static StringBuffer sb = new StringBuffer();
 
@@ -15,14 +15,13 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        arr = new int[N + 1];
         sum = new int[N + 1];
 
         st = new StringTokenizer(br.readLine());
 
         for (int i = 1; i <= N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
-            sum[i] = arr[i] + sum[i - 1];
+            int check = Integer.parseInt(st.nextToken());
+            sum[i] = check + sum[i - 1];
         }
 
         for (int i = 0; i < M; i++) {
