@@ -6,18 +6,21 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
+    static int N, M, arr[][];
+    static boolean[][][] visit;
+
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, 1, -1};
+
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
 
-        int[][] arr = new int[N][M];
-        boolean[][][] visit = new boolean[2][N][M];
-
-        int[] dx = {1, -1, 0, 0};
-        int[] dy = {0, 0, 1, -1};
+        arr = new int[N][M];
+        visit = new boolean[2][N][M];
 
         for(int i = 0; i < N; i++){
             String str = br.readLine();
@@ -25,7 +28,10 @@ public class Main {
                 arr[i][j] = str.charAt(j) - '0';
             }   
         }
-
+        
+        System.out.println(bfs());
+    }
+    static int bfs(){
         Queue<Wall> q = new ArrayDeque<>();
 
         q.add(new Wall(0, 0, 1));
@@ -35,8 +41,7 @@ public class Main {
             Wall now = q.poll();
 
             if(now.x == N-1 && now.y == M-1){
-                System.out.println(now.cnt);
-                System.exit(0);
+                return now.cnt;
             }
 
             for(int i = 0; i < 4; i++){
@@ -59,7 +64,7 @@ public class Main {
                 }
             }
         }
-        System.out.println(-1);
+        return -1;
     }
 }
 
