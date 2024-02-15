@@ -13,7 +13,7 @@ public class Main {
         int K = Integer.parseInt(st.nextToken());
 
         PriorityQueue<Subin> q = new PriorityQueue<>();
-        boolean[] visit = new boolean[200_001];
+        boolean[] visit = new boolean[100_001];
 
         q.offer(new Subin(N, 0));
         visit[N] = true;
@@ -32,7 +32,7 @@ public class Main {
                 if(i == 0){
                     int next = now.x * dx[i];
 
-                    if (next < 0 || next > 200_000 || visit[next])
+                    if (next < 0 || next > 100_000 || visit[next])
                         continue;
                     visit[next] = true;
                     q.offer(new Subin(next, now.cnt));
@@ -40,7 +40,7 @@ public class Main {
                 else{
                     int next = now.x + dx[i];
 
-                    if (next < 0 || next > 200_000 || visit[next])
+                    if (next < 0 || next > 100_000 || visit[next])
                         continue;
                     visit[next] = true;
                     q.offer(new Subin(next, now.cnt + 1));
