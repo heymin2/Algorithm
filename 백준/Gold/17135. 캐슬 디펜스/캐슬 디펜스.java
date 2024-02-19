@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -50,22 +49,30 @@ public class Main {
     static int attack() {
         int check = 0;
         new_map = new int[N][M];
+        int a = 0;
 
         for(int i = 0; i < N; i++){
             for(int j = 0; j < M; j++){
                 new_map[i][j] = map[i][j];
             }
         }
-        for (int k = 0; k < N; k++) { // 적 이동 N번
+        for (int k = N - 1; k >= 0; k--) { // 적 이동
             list = new ArrayList<>();
             for (int cnt = 0; cnt < 3; cnt++) { // 궁수 세명 공격
                 double min = 255;
                 int x = -1, y = 0;
-                for (int i = N-1; i >= k; i--) { // x 좌표
+                int idx = 0;
+                if(k-D > 0){
+                    idx = k-D+1;
+                }
+                else{
+                    idx = 0;
+                }
+                for (int i = k; i >= idx; i--) { // x 좌표 - 이 거리까지 공격 가능
                     for (int j = 0; j < M; j++) { // y 좌표 - 왼쪽부터
                         if (new_map[i][j] == 1) {
-                            int d = Math.abs(N - i) + Math.abs(arr[cnt] - j); // 거리
-                            // System.out.println(i + " " + j);
+                            double d = Math.abs(N - (i+a)) + Math.abs(arr[cnt] - j); // 거리
+                            
                             if (d <= D && min > d) {
                                 min = d;
                                 x = i;
@@ -80,18 +87,12 @@ public class Main {
                         }
                     }
                 }
-                if(x != -1 && y != -1){
+                if(x != -1){
                     list.add(new int[] { x, y });
                 }
             }
             check += new_visit();
-
-            // 궁수의 위치를 아래로 이동시키기
-            for (int i = N - 1; i >= 1; i--) {
-                for (int j = 0; j < M; j++) {
-                    new_map[i][j] = new_map[i - 1][j];
-                }
-            }
+            a++;
         }
 
         return check;
