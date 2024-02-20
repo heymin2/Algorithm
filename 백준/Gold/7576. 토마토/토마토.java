@@ -5,84 +5,58 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main {
-    static int result = -1;
-    static int N;
-    static int M;
-    static int[][] arr;
+public class Main{
+	static int[][] map;
+	static int[][] delta = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+	static int m, n, countOne, count;
+	static Queue<int[]> queue;
+	static int size, tempSize, answer;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		m = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		queue = new LinkedList<int[]>();
 
-        M = Integer.parseInt(st.nextToken());
-        N = Integer.parseInt(st.nextToken());
+		map = new int[n][m];
+		for (int i = 0; i < n; i++) {
+			st = new StringTokenizer(br.readLine());
+			for (int j = 0; j < m; j++) {
+				map[i][j] = Integer.parseInt(st.nextToken());
+				if (map[i][j] == 1) {
+					queue.offer(new int[] { i, j });
+				} else if (map[i][j] == 0) {
+					count++;
+				}
+			}
+		}
 
-        arr = new int[N][M];
-        boolean[][] check = new boolean[N][M];
-        Queue<Tomato> q = new LinkedList<>();
+		bfs();
+	}
 
-        int zero = 0;
+	static void bfs() {
+		int days = 0;
+		while (count > 0 && !queue.isEmpty()) {
 
-        for (int i = 0; i < N; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < M; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
-                if (arr[i][j] == 1) {
-                    q.offer(new Tomato(i, j, 0));
-                    check[i][j] = true;
-                }
-                if (arr[i][j] == 0) {
-                    zero++;
-                }
-            }
-        }
+			for (int i = queue.size(); i > 0; i--) {
+				int[] cur = queue.poll();
 
-        int[] x = { -1, 1, 0, 0 };
-        int[] y = { 0, 0, -1, 1 };
+				for (int d = 0; d < 4; d++) {
+					int ni = cur[0] + delta[d][0];
+					int nj = cur[1] + delta[d][1];
 
-        if (zero == 0) {
-            result = 0;
-        } else {
-            while (!q.isEmpty()) {
-                Tomato t = q.poll();
+					if (ni >= 0 && ni < n && nj >= 0 && nj < m && map[ni][nj] == 0) {
+						map[ni][nj] = 1;
+						count--;
+						queue.offer(new int[] { ni, nj });
+					}
+				}
+			}
+			days += 1;
 
-                if (arr[t.x][t.y] == 0) {
-                    arr[t.x][t.y] = 1;
-                    zero--;
-                }
+		}
+		System.out.println(count==0? days: -1);
+	}
 
-                if (zero == 0) {
-                    result = t.r;
-                    break;
-                }
-
-                for (int i = 0; i < 4; i++) {
-                    int nextX = t.x + x[i];
-                    int nextY = t.y + y[i];
-
-                    if (nextX >= 0 && nextY >= 0 && nextX < N && nextY < M &&
-                            !check[nextX][nextY]
-                            && arr[nextX][nextY] != -1) {
-                        check[nextX][nextY] = true;
-                        q.offer(new Tomato(nextX, nextY, t.r + 1));
-                    }
-                }
-            }
-        }
-
-        System.out.println(result);
-    }
-}
-
-class Tomato {
-    int x;
-    int y;
-    int r;
-
-    public Tomato(int x, int y, int r) {
-        this.x = x;
-        this.y = y;
-        this.r = r;
-    }
 }
