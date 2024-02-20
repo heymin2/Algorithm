@@ -1,69 +1,61 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+//dfs 인접리스트
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static List<Integer>[] list;
+	static boolean[] visited;
+	static int[] dist;
+	static int answer = -1;
 
-        int n = Integer.parseInt(br.readLine());
+	public static void main(String[] args) throws Exception {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int n = Integer.parseInt(br.readLine()); // 사람 수
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int a = Integer.parseInt(st.nextToken());
+		int b = Integer.parseInt(st.nextToken());
+		int tries = Integer.parseInt(br.readLine());
 
-        boolean[][] arr = new boolean[n + 1][n + 1];
-        boolean[] check = new boolean[n + 1];
+		list = new ArrayList[n+1];
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+		for (int i = 0; i <= n; i++) {
+			list[i] = new ArrayList<Integer>();
+		}
+//		System.out.println(a + ": " + b + " : " + tries);
 
-        int start = Integer.parseInt(st.nextToken());
-        int end = Integer.parseInt(st.nextToken());
+		for (int tc = 0; tc < tries; tc++) {
+			st = new StringTokenizer(br.readLine());
+			int from = Integer.parseInt(st.nextToken());
+			int to = Integer.parseInt(st.nextToken());
 
-        int m = Integer.parseInt(br.readLine());
+			list[from].add(to);
+			list[to].add(from);
 
-        for (int i = 0; i < m; i++) {
-            st = new StringTokenizer(br.readLine());
+		}
 
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-
-            arr[x][y] = true;
-            arr[y][x] = true;
-        }
-
-        Queue<Person> q = new LinkedList<>();
-
-        q.offer(new Person(start, 0));
-        check[start] = true;
-
-        int result = -1;
-
-        while (!q.isEmpty()) {
-            Person cnt = q.poll();
-
-            if (cnt.x == end) {
-                result = cnt.r;
-                break;
-            }
-
-            for (int i = 1; i < n + 1; i++) {
-                if (arr[cnt.x][i] && !check[i]) {
-                    check[i] = true;
-                    q.offer(new Person(i, cnt.r + 1));
-                }
-            }
-        }
-
-        System.out.println(result);
-    }
-}
-
-class Person {
-    int x;
-    int r;
-
-    public Person(int x, int r) {
-        this.x = x;
-        this.r = r;
-    }
+		visited = new boolean[n + 1];
+		dfs(a, b, 0);
+		System.out.println(answer);
+	}
+	
+	static void dfs(int a, int b, int count) {
+		
+		if (a == b) {
+			answer = count;
+			return;
+		}
+	
+		
+		visited[a] = true;
+		for (int num: list[a]) {
+			if (!visited[num]) {
+				dfs(num, b, count+1);
+			}
+		}
+	}
 }
