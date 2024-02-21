@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 public class Main {
     static boolean[] visit;
-    static int N, M, result = 0;
+    static int N, M;
     static List<Integer>[] list;
 
     public static void main(String[] args) throws IOException {
@@ -35,17 +35,15 @@ public class Main {
             visit = new boolean[N];
             visit[i] = true;
             dfs(i, 1);
-            if (result == 1) {
-                break;
-            }
         }
-        System.out.println(result);
+
+        System.out.println(0);
     }
 
     static void dfs(int cnt, int depth) {
         if (depth == 5) {
-            result = 1;
-            return;
+            System.out.println(1);
+            System.exit(0);
         }
 
         for (int idx : list[cnt]) {
