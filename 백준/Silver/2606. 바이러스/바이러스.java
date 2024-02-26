@@ -1,41 +1,57 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
-    static int N;
-    static int[][] computer;
-    static boolean[] check;
-    static int result = 0;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException{
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		int N = Integer.parseInt(br.readLine());
+		
+		List<Integer>[] list = new ArrayList[N+1];
+		
+		for(int i = 1; i <= N; i++) {
+			list[i] = new ArrayList<>();
+		}
+		
+		int T = Integer.parseInt(br.readLine());
 
-        N = sc.nextInt();
-
-        computer = new int[N+1][N+1];
-        check = new boolean[N+1];
-
-        int count = sc.nextInt();
-
-        for(int i = 0; i < count; i++){
-            int a = sc.nextInt();
-            int b = sc.nextInt();
-            
-            computer[a][b] = computer[b][a] = 1;
-        }
-        
-        dfs(1);
-
-        System.out.println(result);
-    }
-
-    static void dfs(int idx){
-        check[idx] = true;
-
-        for(int i = 2; i <= N; i++){
-            if(computer[idx][i] == 1 && !check[i]){
-                result++;
-                dfs(i);
-            }
-        }
-    }
+		for(int i = 0; i < T; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			
+			int s = Integer.parseInt(st.nextToken());
+			int e = Integer.parseInt(st.nextToken());
+			
+			list[s].add(e);
+			list[e].add(s);
+		}
+		
+		Queue<Integer> q = new ArrayDeque<>();
+		boolean[] visit = new boolean[N+1];
+		
+		q.add(1);
+		visit[1] = true;
+		int cnt = 0;
+		
+		while(!q.isEmpty()) {
+			int now = q.poll();
+			cnt++;
+			
+			for(int i = 0; i < list[now].size(); i++) {
+				int next = list[now].get(i);
+				
+				if(!visit[next]) {
+					visit[next] = true;
+					q.offer(next);
+				}
+ 			}
+		}
+		System.out.println(cnt-1);
+	}
 }
