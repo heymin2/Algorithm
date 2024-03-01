@@ -39,6 +39,7 @@ public class Main {
         cctv = new int[list.size()];
 
         p(0);
+
         System.out.println(result);
     }
 
@@ -144,27 +145,18 @@ public class Main {
     }
 
     static void watch(info c, int d){
-        Queue<info> q = new ArrayDeque();
-        boolean[][] visit = new boolean[N][M];
+        int nx = c.x + dx[d];
+        int ny = c.y + dy[d];
 
-        q.offer(c);
-        visit[c.x][c.y] = true;
-
-        while(!q.isEmpty()){
-            info now = q.poll();
-
-            int nx = now.x + dx[d];
-            int ny = now.y + dy[d];
-
+        while(true){
             if(nx < 0 || ny < 0 || nx >= N || ny >= M || copy_arr[nx][ny] == 6) break;
 
             if(copy_arr[nx][ny] == 0){
                 copy_arr[nx][ny] = -1;
-                q.offer(new info(nx, ny, d));
             }
-            else{
-                q.offer(new info(nx, ny, d));
-            }
+
+            nx += dx[d];
+            ny += dy[d];
         }
     }
 
@@ -191,7 +183,6 @@ public class Main {
         }
         return tmp;
     }
-
 }
 
 class info{
