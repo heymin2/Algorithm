@@ -39,7 +39,6 @@ public class Main {
         cctv = new int[list.size()];
 
         p(0);
-
         System.out.println(result);
     }
 
@@ -55,7 +54,17 @@ public class Main {
             return;
         }
 
+        info c = list.get(cnt);
+
         for(int i = 0; i < 4; i++){
+            if(c.idx == 2 && i == 2){
+                break;
+            }
+
+            if(c.idx == 5 && i == 1){
+                break;
+            }
+
             cctv[cnt] = i;
             p(cnt+1);
         }
@@ -77,7 +86,7 @@ public class Main {
             }
         }
         else if(c.idx == 2){
-            if(d == 0 || d == 1){
+            if(d == 0){
                 watch(c, 0);
                 watch(c, 2);
             }
@@ -182,6 +191,7 @@ public class Main {
         }
         return tmp;
     }
+
 }
 
 class info{
