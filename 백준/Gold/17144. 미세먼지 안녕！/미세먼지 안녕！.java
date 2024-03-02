@@ -2,13 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
     static int R,C,T, arr[][];
-    static List<int[]> air;
+    static int air; // y좌표 무조건 0
     static List<Dust> dust;
     static int[] dx = {0,-1,0,1};
     static int[] dy = {1,0,-1,0};
@@ -22,7 +21,6 @@ public class Main {
         T = Integer.parseInt(st.nextToken());
 
         arr = new int[R][C];
-        air = new ArrayList<>();
 
         for(int i = 0; i < R; i++){
             st = new StringTokenizer(br.readLine());
@@ -30,7 +28,7 @@ public class Main {
                 arr[i][j] = Integer.parseInt(st.nextToken());
             
                 if(arr[i][j] == -1){
-                    air.add(new int[]{i,j});
+                    air = i;
                 }
             }
         }
@@ -91,12 +89,11 @@ public class Main {
 
     static void air_clean(){ // 공기청정기 작동
         // 위쪽 공기청정 - 반시계
-        int hx = air.get(0)[0];
-        int hy = air.get(0)[1];
+        int hx = air-1;
 
         // 아래로 당기기
         for (int i = hx - 1; i > 0; i--) 
-            arr[i][hy] = arr[i-1][hy];
+            arr[i][0] = arr[i-1][0];
         // 왼쪽으로 당기기
         for (int i = 0; i < C - 1; i++) 
             arr[0][i] = arr[0][i+1];
@@ -107,17 +104,16 @@ public class Main {
         for (int i = C - 1; i > 1; i--) 
             arr[hx][i] = arr[hx][i-1];
         // 공기청정기에서 부는 바람은 미세먼지가 없는 바람
-        arr[hx][hy+1] = 0;
+        arr[hx][1] = 0;
 
         // 아래쪽 공기청정기 - 시계
-        int lx = air.get(1)[0];
-        int ly = air.get(1)[1];
+        int lx = air;
 
         // 위로 당기기
         for (int i = lx+1; i < R-1; i++) 
-            arr[i][ly] = arr[i + 1][ly];
+            arr[i][0] = arr[i + 1][0];
         // 왼쪽으로 당기기
-        for (int i = ly; i < C - 1; i++) 
+        for (int i = 0; i < C - 1; i++) 
         arr[R-1][i] = arr[R-1][i+1];
         // 아래로 당기기
         for (int i = R - 1; i > lx; i--) 
@@ -127,7 +123,7 @@ public class Main {
         arr[lx][i] = arr[lx][i-1];
        
         // 공기청정기에서 부는 바람은 미세먼지가 없는 바람
-        arr[lx][ly+1] = 0;
+        arr[lx][1] = 0;
     }
 }
 
