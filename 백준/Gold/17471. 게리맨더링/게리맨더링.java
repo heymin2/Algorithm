@@ -9,113 +9,109 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, min = Integer.MAX_VALUE; // 구역수
-    static List<ArrayList<Integer>> list; // 구역별 어디랑 인접한지
-    static int[] arr; // 인구수
-    static boolean[] select; // 부분집합 선택했는지
-
-    public static void main(String[] args) throws IOException {
+    static int N, arr[], result = 1000; // 인구수
+    static List<Integer>[] list; // 인접 체크
+    static boolean[] visit;
+ 
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         N = Integer.parseInt(br.readLine());
 
-        list = new ArrayList<>();
-        arr = new int[N];
-        select = new boolean[N];
+        arr = new int[N+1];
+        list = new ArrayList[N+1];
+        visit = new boolean[N+1];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+        
+        for(int i = 1; i <= N; i++){
+            arr[i] = Integer.parseInt(st.nextToken());    
+            list[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i < N; i++) {
-            list.add(new ArrayList<>());
-        }
-
-        for (int i = 0; i < N; i++) {
+        for(int i = 1; i <= N; i++){
             st = new StringTokenizer(br.readLine());
 
-            int cnt = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
 
-            for (int j = 0; j < cnt; j++) {
-                int value = Integer.parseInt(st.nextToken());
-                list.get(i).add(value);
+            for(int j = 0; j < num; j++){
+                list[i].add(Integer.parseInt(st.nextToken()));
             }
         }
 
-        re(0);
-        if (min == Integer.MAX_VALUE) {
-            min = -1;
+        powerSet(1);
+
+        if(result == 1000){
+            System.out.println(-1);
         }
-        System.out.println(min);
+        else{
+            System.out.println(result);
+        }
     }
 
-    static void re(int cnt) {
-        if (cnt == N) {
-            List<Integer> a = new ArrayList<>();
-            List<Integer> b = new ArrayList<>();
+    static void powerSet(int cnt){
+        if(cnt == N){
+            List<Integer> A = new ArrayList<>();
+            List<Integer> B = new ArrayList<>();
 
-            for (int i = 0; i < N; i++) {
-                if (select[i]) {
-                    a.add(i + 1);
-                } else {
-                    b.add(i + 1);
+            for(int i = 1; i <=  N; i++){
+                if(visit[i]){
+                    A.add(i);
+                }
+                else{
+                    B.add(i);
                 }
             }
 
-            if (a.isEmpty() || b.isEmpty()) {
-                return;
+            if(!A.isEmpty() && !B.isEmpty()){
+                if(link(A) && link(B)){
+                    int diff = Math.abs(people(A) - people(B));
+                    result = Math.min(result, diff);
+                }
             }
 
-            if (check(a) && check(b)) {
-                calculate();
-            }
             return;
         }
-
-        select[cnt] = true;
-        re(cnt + 1);
-        select[cnt] = false;
-        re(cnt + 1);
+        visit[cnt] = true;
+        powerSet(cnt+1);
+        visit[cnt] = false;
+        powerSet(cnt+1);
     }
 
-    static boolean check(List<Integer> area) {
-        boolean[] visit = new boolean[N];
-        Queue<Integer> q = new ArrayDeque<>();
+    static boolean link(List<Integer> l){
+        boolean[] visit = new boolean[N+1];
+        Queue<Integer> q = new ArrayDeque();
+        int cnt = 0;
 
-        q.offer(area.get(0) - 1);
-        visit[area.get(0) - 1] = true;
+        q.offer(l.get(0));
+        visit[l.get(0)] = true;
 
-        int cnt = 1;
-        while (!q.isEmpty()) {
+        while(!q.isEmpty()){
             int now = q.poll();
-            for (int i = 0; i < list.get(now).size(); i++) {
-                int next = list.get(now).get(i);
+            cnt++;
 
-                if (!visit[next - 1] && area.contains(next)) {
-                    q.offer(next - 1);
-                    visit[next - 1] = true;
-                    cnt++;
+            for(int i = 0; i < list[now].size(); i++){
+                int num = list[now].get(i);
+                if(!visit[num] && l.contains(num)){
+                    q.offer(num);
+                    visit[num] = true;
                 }
             }
         }
 
-        if (cnt == area.size()) {
+        if(cnt == l.size()){
             return true;
         }
         return false;
     }
 
-    static void calculate() {
-        int a = 0, b = 0;
-        for (int i = 0; i < N; i++) {
-            if (select[i]) {
-                a += arr[i];
-            } else {
-                b += arr[i];
-            }
+    static int people(List<Integer> l){
+        int sum = 0;
+
+        for(int i = 0; i < l.size(); i++){
+            sum += arr[l.get(i)];
         }
-        min = Math.min(min, Math.abs(a - b));
+
+        return sum;
     }
 }
