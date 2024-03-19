@@ -11,7 +11,7 @@ public class Main {
 
         N = Integer.parseInt(br.readLine());
 
-        boolean[][] visit = new boolean [2001][2001];
+        boolean[][] visit = new boolean [1001][1001];
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
         pq.offer(new Node(1, 1, 1));
@@ -24,7 +24,7 @@ public class Main {
                 break;
             }
 
-             if (now.cnt < 0 || now.cnt > 2000 || now.sum > 2000 || visit[now.cnt][now.sum]) continue;
+             if (now.cnt < 0 || now.cnt > 1000 || now.sum > 1000 || visit[now.cnt][now.sum]) continue;
 
             visit[now.cnt][now.sum] = true;
 
