@@ -64,6 +64,6 @@ public class Main {
         if (x == arr[x])
             return x;
         
-        return arr[x] = find(arr[x]);
+        return find(arr[x]);
     }
 }
