@@ -1,9 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.PriorityQueue;
+import java.util.ArrayDeque;
+import java.util.Queue;
 
-public class Main {
+class Main {
     static int N;
 
     public static void main(String[] args) throws IOException {
@@ -13,7 +14,7 @@ public class Main {
 
         boolean[][] visit = new boolean [1001][1001];
 
-        PriorityQueue<Node> pq = new PriorityQueue<>();
+        Queue<Node> pq = new ArrayDeque<>();
         pq.offer(new Node(1, 1, 1));
 
         while (!pq.isEmpty()) {
@@ -24,7 +25,7 @@ public class Main {
                 break;
             }
 
-             if (now.cnt < 0 || now.cnt > 1000 || now.sum > 1000 || visit[now.cnt][now.sum]) continue;
+            if (now.cnt < 0 || now.cnt > 1000 || now.sum > 1000 || visit[now.cnt][now.sum]) continue;
 
             visit[now.cnt][now.sum] = true;
 
@@ -35,17 +36,12 @@ public class Main {
     }
 }
 
-class Node implements Comparable<Node> {
+class Node{
     int cnt, time, sum;
 
     Node(int cnt, int time, int sum) {
         this.cnt = cnt;
         this.time = time;
         this.sum = sum;
-    }
-
-    @Override
-    public int compareTo(Node o) {
-        return time - o.time;
     }
 }
