@@ -26,11 +26,12 @@ public class Main {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
 
-            if(union(a, b) && result == 0){
-                result = i;
+            if(result == 0 && union(a, b)){
+                System.out.println(i);
+                return;
             }
         }
-        System.out.println(result);
+        System.out.println(0);
     }
     
     static boolean union(int a, int b) {
