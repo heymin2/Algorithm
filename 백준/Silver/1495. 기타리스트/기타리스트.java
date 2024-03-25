@@ -40,9 +40,10 @@ public class Main {
 
         int result = -1;
 
-        for(int i = 0; i <= M; i++) {
+        for(int i = M; i >= 0; i--) {
             if(dp[N][i]) {
                 result = i;
+                break;
             }
         }
 
