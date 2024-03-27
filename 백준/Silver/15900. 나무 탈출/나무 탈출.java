@@ -47,7 +47,6 @@ public class Main {
             if(!visit[next]) {
                 visit[next] = true;
                 dfs(next, cnt+1);
-                visit[next] = false;
             }
         }
 
