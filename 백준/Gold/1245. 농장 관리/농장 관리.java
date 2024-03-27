@@ -25,20 +25,18 @@ public class Main {
             }
         }
 
-        boolean[][] visit;
+        boolean[][] visit = new boolean[N][M]; // 방문처리
         boolean[][] t = new boolean[N][M]; // 산봉우리 체크
         int result = 0;
 
         for(int i = 0; i < N; i++) {
             for(int j = 0; j < M; j++) {
-                if(map[i][j] != 0 && !t[i][j]) {
+                if(map[i][j] != 0 && !visit[i][j]) {
                     boolean flag = true;
-                    visit = new boolean[N][M]; // 방문처리
                     Queue<Top> q = new ArrayDeque<>();
 
                     q.offer(new Top(i, j));
                     visit[i][j] = true;
-                    List<Top> list = new ArrayList<>();
 
                     while(!q.isEmpty()) {
                         Top now = q.poll();
@@ -47,26 +45,22 @@ public class Main {
                             int nx = now.x + dx[k];
                             int ny = now.y + dy[k];
 
-                            if(nx < 0 || ny < 0 || nx >= N || ny >= M || visit[nx][ny]) continue;
+                            if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
 
                             if(map[nx][ny] > map[now.x][now.y]){
                                 flag = false;
-                                break;
                             } 
 
                             if(map[nx][ny] == map[now.x][now.y]) {
-                                q.offer(new Top(nx, ny));
-                                list.add(new Top(nx, ny));
-                                visit[nx][ny] = true;
+                                if(!visit[nx][ny]){
+                                    q.offer(new Top(nx, ny));
+                                    visit[nx][ny] = true;
+                                }
                             }
                         }
                     }
 
                     if(flag) {
-                        for(int k = 0; k < list.size(); k++) {
-                            Top now = list.get(k);
-                            t[now.x][now.y] = true;
-                        }
                         result++;
                     }
                 }
