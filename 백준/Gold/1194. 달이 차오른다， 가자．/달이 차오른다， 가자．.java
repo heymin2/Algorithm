@@ -57,59 +57,14 @@ public class Main {
                     continue;
                 }
 
-                if (map[nx][ny] == 'a') {
-                    int key = now.key | 1 << 0;
-                    visit[key][nx][ny] = true;
-                    q.offer(new Minsik(nx, ny, now.time + 1, key));
-                } else if (map[nx][ny] == 'b') {
-                    int key = now.key | 1 << 1;
-                    visit[key][nx][ny] = true;
-                    q.offer(new Minsik(nx, ny, now.time + 1, key));
-                } else if (map[nx][ny] == 'c') {
-                    int key = now.key | 1 << 2;
-                    visit[key][nx][ny] = true;
-                    q.offer(new Minsik(nx, ny, now.time + 1, key));
-                } else if (map[nx][ny] == 'd') {
-                    int key = now.key | 1 << 3;
-                    visit[key][nx][ny] = true;
-                    q.offer(new Minsik(nx, ny, now.time + 1, key));
-                } else if (map[nx][ny] == 'e') {
-                    int key = now.key | 1 << 4;
-                    visit[key][nx][ny] = true;
-                    q.offer(new Minsik(nx, ny, now.time + 1, key));
-                } else if (map[nx][ny] == 'f') {
-                    int key = now.key | 1 << 5;
+                if ('a' <= map[nx][ny] && map[nx][ny] <= 'f') {
+                    int key = now.key | 1 << (map[nx][ny] - 'a');
                     visit[key][nx][ny] = true;
                     q.offer(new Minsik(nx, ny, now.time + 1, key));
                 }
 
-                if (map[nx][ny] == 'A') {
-                    if ((now.key & 1 << 0) > 0) {
-                        visit[now.key][nx][ny] = true;
-                        q.offer(new Minsik(nx, ny, now.time + 1, now.key));
-                    }
-                } else if (map[nx][ny] == 'B') {
-                    if ((now.key & 1 << 1) > 0) {
-                        visit[now.key][nx][ny] = true;
-                        q.offer(new Minsik(nx, ny, now.time + 1, now.key));
-                    }
-                } else if (map[nx][ny] == 'C') {
-                    if ((now.key & 1 << 2) > 0) {
-                        visit[now.key][nx][ny] = true;
-                        q.offer(new Minsik(nx, ny, now.time + 1, now.key));
-                    }
-                } else if (map[nx][ny] == 'D') {
-                    if ((now.key & 1 << 3) > 0) {
-                        visit[now.key][nx][ny] = true;
-                        q.offer(new Minsik(nx, ny, now.time + 1, now.key));
-                    }
-                } else if (map[nx][ny] == 'E') {
-                    if ((now.key & 1 << 4) > 0) {
-                        visit[now.key][nx][ny] = true;
-                        q.offer(new Minsik(nx, ny, now.time + 1, now.key));
-                    }
-                } else if (map[nx][ny] == 'F') {
-                    if ((now.key & 1 << 5) > 0) {
+                if ('A' <= map[nx][ny] && map[nx][ny] <= 'F') {
+                    if ((now.key & 1 << (map[nx][ny] - 'A')) > 0) {
                         visit[now.key][nx][ny] = true;
                         q.offer(new Minsik(nx, ny, now.time + 1, now.key));
                     }
