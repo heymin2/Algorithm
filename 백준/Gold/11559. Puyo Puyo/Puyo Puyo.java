@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
@@ -15,7 +14,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         arr = new char[12][6];
 
         for(int i = 0; i < 12; i++) {
@@ -29,13 +27,9 @@ public class Main {
 
         while(true){
             boolean flag = check();
-
-            if(!flag) {
-                break;
-            }
+            if(!flag) break;
 
             result++;
-
             down();
         }
 
@@ -56,14 +50,13 @@ public class Main {
                 }
             }
         }
-
         return flag;
     }
 
     static boolean bfs(int x, int y) {
         List<Node> list = new ArrayList<>();
         Queue<Node> q = new ArrayDeque<>();
-        q.offer(new Node(x, y, 1));
+        q.offer(new Node(x, y));
         char C = arr[x][y];
 
         while(!q.isEmpty()) {
@@ -77,7 +70,7 @@ public class Main {
                 if(nx < 0 || ny < 0 || nx >= 12 || ny >= 6) continue;
                 if(visit[nx][ny] || arr[nx][ny] != C) continue;
 
-                q.offer(new Node(nx, ny, now.cnt+1));
+                q.offer(new Node(nx, ny));
                 visit[nx][ny] = true;
             }
         }
@@ -108,16 +101,13 @@ public class Main {
 
         }
     }
-
 }
 
 class Node{
-    int x, y, cnt;
+    int x, y;
 
-    Node(int x, int y, int cnt){
+    Node(int x, int y){
         this.x = x;
         this.y = y;
-        this.cnt = cnt;
     }
-
 }
