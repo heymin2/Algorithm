@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 public class Main {
     static int N, M, arr[][];
     static int min = Integer.MAX_VALUE;
-    static boolean[][] visit;
     static List<Node> list;
     static List<Node> list2;
     static int[] dx = {1,-1,0,0};
@@ -48,7 +47,7 @@ public class Main {
 
     static void wall(int start, int cnt){
         if(cnt == 3){
-            bfs();
+            max = Math.max(bfs(), max);
             return;
         }
 
@@ -61,20 +60,13 @@ public class Main {
         }   
     }
 
-    static void bfs(){
+    static int bfs(){
         Queue<Node> q = new ArrayDeque<>();
-        visit = new boolean[N][M];
-        int[][] map = new int[N][M];
+        boolean[][] visit = new boolean[N][M];
 
         for(int i = 0; i < list.size(); i++){
             q.offer(list.get(i));
             visit[list.get(i).x][list.get(i).y] = true;
-        }
-
-        for(int i = 0; i < N; i++){
-            for(int j = 0; j < M; j++){
-                map[i][j] = arr[i][j];
-            }
         }
 
         while(!q.isEmpty()){
@@ -84,28 +76,24 @@ public class Main {
                 int nx = now.x + dx[i];
                 int ny = now.y + dy[i];
 
-                if(nx < 0 || ny < 0 || nx >= N || ny >= M || visit[nx][ny] || map[nx][ny] == 1) continue;
+                if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+                if(visit[nx][ny] || arr[nx][ny] == 1) continue;
 
                 visit[nx][ny] = true;
-                map[nx][ny] = 2;
                 q.offer(new Node(nx, ny));
             }
         }
-        safeMax(map);
-    }
 
-    static void safeMax(int[][] map){
         int cnt = 0;
-
         for(int i = 0; i < N; i++){
             for(int j = 0; j < M; j++){
-                if(map[i][j] == 0){
+                if(arr[i][j] == 0 && !visit[i][j]){
                     cnt++;
                 }
             }
         }
 
-        max = Math.max(cnt, max);
+        return cnt;
     }
 }
 
