@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, arr[][], tmp[][], min;
+    static int N, arr[][], min;
     static boolean[][] visit;
     static int[] dx = { 1, -1, 0, 0 };
     static int[] dy = { 0, 0, 1, -1 };
@@ -70,20 +70,12 @@ public class Main {
     }
 
     static void bridge(int num) {
-        tmp = new int[N][N];
-
-        for(int i = 0; i < N; i++) {
-            for(int j = 0; j < N; j++ ){
-                tmp[i][j] = arr[i][j];
-            }
-        }
-
         boolean[][] visit2 = new boolean[N][N];
         Queue<Node> q = new ArrayDeque<>();
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if(tmp[i][j] == num) {
+                if(arr[i][j] == num) {
                     q.add(new Node(i, j, 0));
                     visit2[i][j] = true; 
                 }
@@ -104,7 +96,7 @@ public class Main {
                     min = Math.min(min, now.time);
                 }
 
-                if(tmp[nx][ny] == 0){
+                if(arr[nx][ny] == 0){
                     visit2[nx][ny] = true;
                     q.offer(new Node(nx, ny, now.time+1));
                 }
