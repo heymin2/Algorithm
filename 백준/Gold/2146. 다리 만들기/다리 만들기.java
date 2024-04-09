@@ -11,7 +11,7 @@ public class Main {
     static int[] dx = { 1, -1, 0, 0 };
     static int[] dy = { 0, 0, 1, -1 };
 
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
@@ -30,41 +30,34 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if(!visit[i][j] && arr[i][j] != 0){
-                    check(i, j, num);
+                if (!visit[i][j] && arr[i][j] != 0) {
+                    dfs(i, j, num);
                     num++;
                 }
             }
         }
 
         min = Integer.MAX_VALUE;
-        for(int i = 1; i < num; i++) {
+        for (int i = 1; i < num; i++) {
             bridge(i);
         }
 
         System.out.println(min);
     }
 
-    static void check(int x, int y, int num) { // 섬 체크
-        Queue<Node> q = new ArrayDeque<>();
-
+    static void dfs(int x, int y, int island) {
+        arr[x][y] = island;
         visit[x][y] = true;
-        arr[x][y] = num;
-        q.offer(new Node(x, y));
 
-        while(!q.isEmpty()) {
-            Node now = q.poll();
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
 
-            for(int i = 0; i < 4; i++) {
-                int nx = now.x + dx[i];
-                int ny = now.y + dy[i];
+            if (nx < 0 || ny < 0 || nx >= N || ny >= N)
+                continue;
 
-                if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
-                if(visit[nx][ny] || arr[nx][ny] == 0) continue;
-
-                visit[nx][ny] = true;
-                arr[nx][ny] = num;
-                q.offer(new Node(nx, ny));
+            if (arr[nx][ny] == 1 && !visit[nx][ny]) {
+                dfs(nx, ny, island);
             }
         }
     }
@@ -75,30 +68,32 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if(arr[i][j] == num) {
+                if (arr[i][j] == num) {
                     q.add(new Node(i, j, 0));
-                    visit2[i][j] = true; 
+                    visit2[i][j] = true;
                 }
             }
         }
 
-        while(!q.isEmpty()) {
+        while (!q.isEmpty()) {
             Node now = q.poll();
 
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 int nx = now.x + dx[i];
                 int ny = now.y + dy[i];
 
-                if(nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
-                if(visit2[nx][ny]) continue;
+                if (nx < 0 || ny < 0 || nx >= N || ny >= N)
+                    continue;
+                if (visit2[nx][ny])
+                    continue;
 
-                if(arr[nx][ny] != num && arr[nx][ny] != 0){
+                if (arr[nx][ny] != num && arr[nx][ny] != 0) {
                     min = Math.min(min, now.time);
                 }
 
-                if(arr[nx][ny] == 0){
+                if (arr[nx][ny] == 0) {
                     visit2[nx][ny] = true;
-                    q.offer(new Node(nx, ny, now.time+1));
+                    q.offer(new Node(nx, ny, now.time + 1));
                 }
             }
         }
