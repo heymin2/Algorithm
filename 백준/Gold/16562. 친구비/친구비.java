@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M, K, cost[], parent[];
+    static int N, M, K, cost[], parent[]; // 학생수, 친구관계수, 돈
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
@@ -55,10 +55,8 @@ public class Main {
         x = find(x);
         y = find(y);
         
-        if(x == y) return;
-
-        if(cost[x] >= cost[y]) parent[x] = y;
-        else parent[y] = x;
+        if (cost[x] < cost[y]) parent[y] = x;
+        else parent[x] = y;
     }
 
     static int find(int x) {
