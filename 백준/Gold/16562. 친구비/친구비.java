@@ -55,6 +55,8 @@ public class Main {
         x = find(x);
         y = find(y);
         
+        if(x == y) return;
+
         if(cost[x] >= cost[y]) parent[x] = y;
         else parent[y] = x;
     }
