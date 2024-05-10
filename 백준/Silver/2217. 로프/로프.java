@@ -1,31 +1,30 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+class Main {
+    static int N, arr[];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
 
-        int N = sc.nextInt();
+        arr = new int[N];
 
-        List<Integer> rope = new ArrayList<>();
-
-        for(int i = 0; i < N; i++){
-            int input = sc.nextInt();
-            rope.add(input);
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(br.readLine());
         }
 
-        rope.sort((o1, o2) -> o2 - o1);
+        Arrays.sort(arr);
 
         int max = 0;
 
-        for(int i = 0; i < rope.size(); i++){
-            int value = rope.get(i) * (i+1);
-            if(value > max){
-                max = value;
-            }
-        }
+        for (int i = 0; i < N; i++) {
+            int result = arr[i] * (N - i);
 
+            max = Math.max(max, result);
+        }
+        
         System.out.println(max);
     }
 }
