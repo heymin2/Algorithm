@@ -4,8 +4,6 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-
-
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -27,11 +25,7 @@ public class Main {
 
         int result = Integer.MAX_VALUE;
 
-        while(true) {
-            if(right == N || left == N) {
-                break;
-            }
-
+        while(right < N && left <= right) {
             int value = A[right] - A[left];
 
             if(value < M) {
@@ -46,7 +40,6 @@ public class Main {
                 left++;
             }
         }
-
         System.out.println(result);
     }
 }
