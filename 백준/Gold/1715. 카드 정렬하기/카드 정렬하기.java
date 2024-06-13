@@ -14,21 +14,16 @@ public class Main {
             pq.add(Integer.parseInt(br.readLine()));
         }
 
-        if(N == 1){
-            System.out.println(0);
+        int sum = 0;
+
+        while(pq.size() > 1) {
+            int a = pq.poll();
+            int b = pq.poll();
+
+            sum += a+b;
+            pq.add(a+b);
         }
-        else{
-            int sum = 0;
 
-            while(pq.size() > 1) {
-                int a = pq.poll();
-                int b = pq.poll();
-
-                sum += a+b;
-                pq.add(a+b);
-            }
-
-            System.out.println(sum);
-        }
+        System.out.println(sum);
     }
 }
