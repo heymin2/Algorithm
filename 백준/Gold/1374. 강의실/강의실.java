@@ -1,6 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
@@ -9,7 +13,7 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        PriorityQueue<Node> pq = new PriorityQueue<>();
+        List<Node> list = new ArrayList<>();
 
         for(int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -18,28 +22,28 @@ public class Main {
             int start = Integer.parseInt(st.nextToken());
             int end = Integer.parseInt(st.nextToken());
 
-            pq.add(new Node(num, start, end));
+            list.add(new Node(num, start, end));
         }
+
+        Collections.sort(list);
 
         PriorityQueue<Integer> room = new PriorityQueue<>();
-        room.add(pq.poll().end);
 
-        while(!pq.isEmpty()) {
-            int size = room.size();
-            Node cnt = pq.poll();
-            boolean flag = false;
-
-            for(int i = 0; i < size; i++) {
-                if(room.peek() <= cnt.start) {
+        for(int i = 0; i < N; i++) {
+            if(room.isEmpty()) {
+                room.offer(list.get(i).end);
+            }
+            else {
+                if(room.peek() > list.get(i).start) {
+                    room.offer(list.get(i).end);
+                }
+                else {
                     room.poll();
-                    room.add(cnt.end);
-                    flag = true;
-                    break;
+                    room.offer(list.get(i).end);
                 }
             }
-            if(!flag) room.add(cnt.end);
         }
-        
+
         System.out.println(room.size());
     }
 }
