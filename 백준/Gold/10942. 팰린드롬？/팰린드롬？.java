@@ -4,14 +4,15 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    // 팰린드롬: 왼쪽에서 읽어도, 오른쪽에서 읽어도 같은 수
+    static int[] arr;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
         int N = Integer.parseInt(br.readLine());
 
-        int[] arr = new int[N];
+        arr = new int[N];
         
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i = 0; i < N; i++) {
@@ -26,27 +27,22 @@ public class Main {
             int s = Integer.parseInt(st.nextToken()) - 1;
             int e  = Integer.parseInt(st.nextToken()) -1;
 
-            int num = e-s;
-            boolean flag = true;
-
-            if(num % 2 == 0) num = num / 2;
-            else num = num / 2 + 1;
-
-            for(int j = 0; j < num; j++) {
-                if(arr[s] != arr[e]){
-                    sb.append(0).append("\n");
-                    flag = false;
-                    break;
-                }
-                s++;
-                e--;
-            }
-
-            if(flag) {
-                sb.append(1).append("\n");
-            }
+            sb.append(check(s, e)).append("\n");
         }
 
         System.out.println(sb);
+    }
+
+    static int check(int s, int e) {
+        int flag = 1;
+
+        while(s < e) {
+            if(arr[s++] != arr[e--]){
+                flag = 0;
+                break;
+            }
+        }
+
+        return flag;
     }
 }
