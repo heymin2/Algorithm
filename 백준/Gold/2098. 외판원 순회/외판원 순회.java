@@ -13,7 +13,7 @@ public class Main {
         N = Integer.parseInt(br.readLine());
 
         map = new int[N][N];
-        dp = new int[N][(1 << N)];
+        dp = new int[N][(1 << N) -1];
 
         for(int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
