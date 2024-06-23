@@ -40,13 +40,15 @@ public class Main {
             return dp[city][visit];
         }
 
-        dp[city][visit] = INF;
+        int min = INF;
 
         for(int i = 0; i < N; i++) {
             if((visit & (1 << i)) == 0 && map[city][i] != 0) {
-                dp[city][visit] = Math.min(dp[city][visit], dfs(i, visit | (1 << i)) + map[city][i]);
+                min = Math.min(min, dfs(i, visit | (1 << i)) + map[city][i]);
             }
         }
+
+        dp[city][visit] = min;
 
         return dp[city][visit];
     }
