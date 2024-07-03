@@ -41,11 +41,7 @@ public class Main {
         int j = 0;
 
         for(int i = 0; i < K; i++) {
-
-            while(j < N) {
-                if(list.get(j).m > bag[i]) {
-                    break;
-                }
+            while(j < N && list.get(j).m <= bag[i]) {
                 pq.offer(list.get(j++).v);
             }
 
