@@ -32,7 +32,7 @@ public class Main {
             }
 
             prefixSum[i] = prefixSum[i - 1] + (flag ? 1 : 0);
-            sb.append(flag ? "Yes" : "No").append("\n");
+            sb.append(flag ? "Yes\n" : "No\n");
         }
 
         System.out.println(sb);
