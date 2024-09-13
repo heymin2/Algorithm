@@ -11,42 +11,43 @@ public class Main {
         
         List<Character> S = new ArrayList<>();
         String c = br.readLine();
-        for(int i = 0; i < c.length(); i++) {
+        for(int i = 0; i < N; i++) {
             S.add(c.charAt(i));
         }
 
+        // 맨 뒷글자 자음 제외
         for(int i = S.size()-1; i >= 0; i--) {
-            if(S.get(i) != 'A' || S.get(i) != 'E' || S.get(i) != 'I' || S.get(i) != 'O' || S.get(i) != 'U') {
-                break;
+            if(S.get(i) == 'A' || S.get(i) == 'E' || S.get(i) == 'I' || S.get(i) == 'O' || S.get(i) == 'U') {
+                S.remove(i);
             }
             else {
-                S.remove(i);
+                break;
             }
         }
 
         for(int i = S.size()-2; i >= 0; i--) {
-            if(S.get(i) == 'A') {
-                break;
+            if(S.get(i) != 'A') {
+                S.remove(i);
             }
             else {
-                S.remove(i);
+                break;
             }
         }
 
         for(int i = S.size()-3; i >= 0; i--) {
-            if(S.get(i) == 'A') {
-                break;
+            if(S.get(i) != 'A') {
+                S.remove(i);
             }
             else {
-                S.remove(i);
+                break;
             }
         }
 
         StringBuilder sb = new StringBuilder();
 
-        if(S.size() > M) {
+        if(S.size() >= M) {
             sb.append("YES\n");
-            for(int i = S.size()-M; i <= M; i++) {
+            for(int i = S.size()-M; i < S.size(); i++) {
                 sb.append(S.get(i));
             }
         }
