@@ -1,39 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    static int N;
-    static int M;
-    static StringBuffer sb = new StringBuffer();
-    static int[] check;
+    static int N, M;
+    static int[] arr;
+    static StringBuilder sb;
+    static int[] select;
+    static boolean[] check;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        sb = new StringBuilder();
 
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        check = new int[M];
+        arr = new int[N];
+        check = new boolean[N+1];
+        select = new int[M];
 
-        re(0, 1);
+        select(0, 1);
 
         System.out.println(sb);
     }
 
-    static void re(int cnt, int value) {
-        if (cnt == M) {
-            for (int i = 0; i < M; i++) {
-                sb.append(check[i]).append(" ");
+    static void select(int cnt, int v) {
+        if(cnt == M) {
+            for(int i = 0; i < M; i++) {
+                sb.append(select[i]).append(" ");
             }
             sb.append("\n");
             return;
         }
-        for (int i = value; i <= N; i++) {
-            check[cnt] = i;
-            re(cnt + 1, i + 1);
+        
+        for(int i = v; i <= N; i++) {
+            if(!check[i]) {
+                select[cnt] = i;
+                check[i] = true;
+                select(cnt+1, i+1);
+                check[i] = false;
+            }
+           
         }
     }
 }
