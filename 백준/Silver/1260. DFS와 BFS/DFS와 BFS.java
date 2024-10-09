@@ -1,66 +1,67 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
+import java.io.*;
 
 public class Main {
     static int N, M, V;
-    
-    static int[][] arr;
-    static boolean[] check;
+    static int[] dfs;
+    static boolean[] flag;
+    static boolean[][] arr;
+    static StringBuilder sb;
 
-    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        sb = new StringBuilder();
 
-    static Queue<Integer> q = new LinkedList<>();
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        V = Integer.parseInt(st.nextToken());
 
-        N = sc.nextInt(); // 정점 개수
-        M = sc.nextInt(); // 간선 개수
-        V = sc.nextInt(); // 정점 시작 번호
+        arr = new boolean[N+1][N+1];
+        dfs = new int[N];
+        flag = new boolean[N+1];
 
-        arr = new int[N+1][N+1];
-        check = new boolean[N+1];
 
-        for(int i = 0; i < M; i++){
-            int s = sc.nextInt();
-            int e = sc.nextInt();
-     
-            arr[s][e] = arr[e][s] = 1; 
+        for(int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
+            arr[a][b] = arr[b][a] = true;
         }
 
         dfs(V);
         sb.append("\n");
-
-        check = new boolean[N+1];
         bfs(V);
-
         System.out.println(sb);
     }
 
-    static void dfs(int start){
-        check[start] = true;
+    static void dfs(int start) {
+        flag[start] = true;
+        sb.append(start).append(" ");
 
-        sb.append(start + " ");
-
-        for(int i = 0; i <= N; i++){
-            if(arr[start][i] == 1 && !check[i]){
+        for(int i = 1; i <= N; i++) {
+            if(!flag[i] && arr[start][i]) {
                 dfs(i);
             }
         }
     }
 
-    static void bfs(int start){
+    static void bfs(int start) {
+        Queue<Integer> q = new ArrayDeque<>();
         q.add(start);
-        check[start] = true;
+        flag = new boolean[N+1];
+        flag[start] = true;
 
         while(!q.isEmpty()) {
-            start = q.poll();
-            sb.append(start + " ");
+            int now = q.poll();
+            sb.append(now).append(" ");
 
-            for(int i = 1; i <= N; i++){
-                if(arr[start][i] == 1 && !check[i]){
+            for(int i = 1; i <= N; i++) {
+                if(!flag[i] && arr[now][i]) {
+                    flag[i] = true;
                     q.add(i);
-                    check[i] = true;
                 }
             }
         }
