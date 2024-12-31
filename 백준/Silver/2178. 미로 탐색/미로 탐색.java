@@ -21,10 +21,10 @@ public class Main {
         }
 
         Queue<Node> q = new ArrayDeque<>();
-        int[][] visit = new int[N][M];
+        boolean[][] visit = new boolean[N][M];
 
         q.add(new Node(0, 0, 1));
-        visit[0][0] = 1;
+        visit[0][0] = true;
 
         while(!q.isEmpty()) {
             Node now = q.poll();
@@ -37,14 +37,12 @@ public class Main {
             for(int i = 0; i < 4; i++) {
                 int nx = now.x + dx[i];
                 int ny = now.y + dy[i];
-                int ncnt = now.cnt + 1;
 
                 if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
-                if(arr[nx][ny] == 0) continue;
-                if(visit[nx][ny] != 0 && visit[nx][ny] <= ncnt) continue;
+                if(arr[nx][ny] == 0 || visit[nx][ny]) continue;
 
-                q.add(new Node(nx, ny, ncnt));
-                visit[nx][ny] = ncnt;
+                q.add(new Node(nx, ny, now.cnt + 1));
+                visit[nx][ny] = true;
             }
         }
     }
