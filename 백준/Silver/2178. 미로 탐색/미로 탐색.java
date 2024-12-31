@@ -1,71 +1,60 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
+    static int[] dx = {1, -1, 0, 0};
+    static int[] dy = {0, 0, 1, -1};
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-
         int[][] arr = new int[N][M];
-        boolean[][] check = new boolean[N][M];
 
-        for (int i = 0; i < N; i++) {
-            String str = br.readLine();
-            for (int j = 0; j < M; j++) {
-                arr[i][j] = str.charAt(j) - '0';
+        for(int i = 0; i < N; i++) {
+            String input = br.readLine();
+            for(int j = 0; j < M; j++) {
+                arr[i][j] = input.charAt(j) - '0';
             }
         }
 
-        Queue<Search> q = new LinkedList<>();
+        Queue<Node> q = new ArrayDeque<>();
+        int[][] visit = new int[N][M];
 
-        q.offer(new Search(0, 0, 1));
-        check[0][0] = true;
+        q.add(new Node(0, 0, 1));
+        visit[0][0] = 1;
 
-        int[] x = { -1, 1, 0, 0 };
-        int[] y = { 0, 0, -1, 1 };
+        while(!q.isEmpty()) {
+            Node now = q.poll();
 
-        int min = Integer.MAX_VALUE;
-
-        while (!q.isEmpty()) {
-            Search cnt = q.poll();
-
-            if (cnt.x == N - 1 && cnt.y == M - 1) {
-                min = Math.min(cnt.r, min);
+            if(now.x == N-1 && now.y == M-1) {
+                System.out.println(now.cnt);
+                break;
             }
 
-            for (int i = 0; i < 4; i++) {
-                int nextX = cnt.x + x[i];
-                int nextY = cnt.y + y[i];
+            for(int i = 0; i < 4; i++) {
+                int nx = now.x + dx[i];
+                int ny = now.y + dy[i];
 
-                if (nextX >= 0 && nextY >= 0 && nextX < N && nextY < M) {
-                    if (arr[nextX][nextY] == 1 && !check[nextX][nextY]) {
-                        check[nextX][nextY] = true;
-                        q.offer(new Search(nextX, nextY, cnt.r + 1));
-                    }
+                if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
+                if(arr[nx][ny] == 0) continue;
+                if(visit[nx][ny] != 0 && visit[nx][ny] <= now.cnt + 1) continue;
 
-                }
+                q.add(new Node(nx, ny, now.cnt + 1));
+                visit[nx][ny] = now.cnt + 1;
             }
         }
-
-        System.out.println(min);
     }
 }
 
-class Search {
-    int x;
-    int y;
-    int r;
+class Node {
+    int x, y, cnt;
 
-    public Search(int x, int y, int r) {
+    public Node(int x, int y, int cnt) {
         this.x = x;
         this.y = y;
-        this.r = r;
+        this.cnt = cnt;
     }
 }
