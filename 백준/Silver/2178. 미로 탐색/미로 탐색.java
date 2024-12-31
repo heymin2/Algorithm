@@ -37,13 +37,14 @@ public class Main {
             for(int i = 0; i < 4; i++) {
                 int nx = now.x + dx[i];
                 int ny = now.y + dy[i];
+                int ncnt = now.cnt + 1;
 
                 if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
                 if(arr[nx][ny] == 0) continue;
-                if(visit[nx][ny] != 0 && visit[nx][ny] <= now.cnt + 1) continue;
+                if(visit[nx][ny] != 0 && visit[nx][ny] <= ncnt) continue;
 
-                q.add(new Node(nx, ny, now.cnt + 1));
-                visit[nx][ny] = now.cnt + 1;
+                q.add(new Node(nx, ny, ncnt));
+                visit[nx][ny] = ncnt;
             }
         }
     }
