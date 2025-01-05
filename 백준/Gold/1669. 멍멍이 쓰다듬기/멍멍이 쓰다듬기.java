@@ -10,15 +10,13 @@ public class Main {
         int monkey = Integer.parseInt(st.nextToken());
         int dog = Integer.parseInt(st.nextToken());
 
-        int key = 0;
+        int key = 1;
         int cnt = 0;
 
         while(true) {
             if(monkey >= dog) {
                 break;
             }
-
-            key++;
 
             monkey += key;
             cnt++;
@@ -29,6 +27,8 @@ public class Main {
 
             dog -= key;
             cnt++;
+
+            key++;
         }
 
         System.out.println(cnt);
