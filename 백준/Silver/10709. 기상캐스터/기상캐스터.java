@@ -10,7 +10,7 @@ public class Main {
         int H = Integer.parseInt(st.nextToken());
         int W = Integer.parseInt(st.nextToken());
 
-        int[][] arr = new int[H][W];
+        StringBuilder sb = new StringBuilder();
 
         for(int i = 0; i < H; i++) {
             String input = br.readLine();
@@ -20,19 +20,11 @@ public class Main {
                 else {
                     if(cnt >= 0) cnt++;
                 }
-                arr[i][j] = cnt;
-            }
-        }
-        
-        StringBuilder sb = new StringBuilder();
-
-        for(int i = 0; i < H; i++) {
-            for(int j = 0; j < W; j++) {
-                sb.append(arr[i][j]).append(" ");
+                sb.append(cnt).append(" ");
             }
             sb.append("\n");
         }
-
+        
         System.out.println(sb);
     }
 }
