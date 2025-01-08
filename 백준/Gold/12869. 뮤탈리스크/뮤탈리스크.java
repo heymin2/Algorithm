@@ -17,9 +17,8 @@ public class Main {
             list.add(Integer.parseInt(st.nextToken()));
         }
 
-        for(int i = 0; i < 3; i++) {
-            list.add(0);
-        }
+        list.add(0);
+        list.add(0);
 
         HP = new int[list.get(0)+1][list.get(1)+1][list.get(2)+1];
 
