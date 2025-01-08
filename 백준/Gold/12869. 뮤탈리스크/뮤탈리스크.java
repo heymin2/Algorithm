@@ -17,9 +17,7 @@ public class Main {
             list.add(Integer.parseInt(st.nextToken()));
         }
 
-        int check = 3 - list.size();
-
-        for(int i = 0; i < check; i++) {
+        for(int i = 0; i < 3; i++) {
             list.add(0);
         }
 
