@@ -1,40 +1,39 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-        int N = Integer.parseInt(st.nextToken()); // 얼음 양동이
-        int K = Integer.parseInt(st.nextToken()); // 좌우 K만큼 이동 가능
+        int[] ice = new int[1_000_001];
+        int maxPos = 0;
 
-        int[] arr = new int[1_000_001];
-
-        for(int i = 0 ; i < N; i++) {
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-
             int g = Integer.parseInt(st.nextToken());
             int x = Integer.parseInt(st.nextToken());
-
-            arr[x] += g;
+            ice[x] += g;
+            maxPos = Math.max(maxPos, x);
         }
-       
+
+        int range = 2 * K + 1;
         int sum = 0;
+        int maxSum = 0;
 
-        for(int i = 0; i < K*2+1; i++) {
-            if(i > 1_000_000) break;
-            sum += arr[i];
+        for (int i = 0; i < range && i <= maxPos; i++) {
+            sum += ice[i];
+        }
+        maxSum = sum;
+
+        for (int i = range; i <= maxPos; i++) {
+            sum += ice[i];
+            sum -= ice[i - range];
+            maxSum = Math.max(maxSum, sum);
         }
 
-        int max = sum;
-
-        for(int i = K*2+1, j = 0; i <= 1_000_000; i++, j++) {
-            sum -= arr[j];
-            sum += arr[i];
-            max = Math.max(max, sum);
-        }
-
-        System.out.println(max);
+        System.out.println(maxSum);
     }
 }
