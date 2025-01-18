@@ -6,7 +6,7 @@ public class Main {
     static int N, K;
     static List<String> words;
     static boolean[] alpha = new boolean[26];
-    static int max = 0, check = 0;
+    static int max = 0;
 
     public static void main(String[] args) throws IOException {
         // 입력
@@ -19,14 +19,7 @@ public class Main {
         words = new ArrayList<>(); // 남극 단어
         
         for(int i = 0; i < N; i++) {
-            String input = br.readLine();
-
-            if(input.equals("antatica")) check++;
-            else {
-                String[] splitInput = input.split("anta");
-                String[] splitInput2 = splitInput[1].split("tica");
-                words.add(splitInput2[0]);
-            }
+            words.add(br.readLine());
         }
 
         // 풀이
@@ -39,7 +32,7 @@ public class Main {
             alpha['c' - 'a'] = true;
 
             dfs(0, 0);
-            System.out.println(max+check);
+            System.out.println(max);
         }
         
     }
@@ -61,7 +54,7 @@ public class Main {
 
     static void countWord() {
         int cnt = 0;
-        for(int i = 0; i < N - check; i++) {
+        for(int i = 0; i < N; i++) {
             boolean flag = true;
             for(int j = 0; j < words.get(i).length(); j++) {
                 if(!alpha[words.get(i).charAt(j) - 'a']) {
