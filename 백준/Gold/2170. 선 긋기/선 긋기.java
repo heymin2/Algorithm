@@ -50,14 +50,6 @@ class Node implements Comparable<Node> {
 
     @Override
     public int compareTo(Node o) {
-        if (this.x == o.x) {
-            return o.y - this.y;
-        }
         return this.x - o.x;
-    }
-
-    @Override
-    public String toString() {
-        return x + " " + y;
     }
 }
