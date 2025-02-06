@@ -1,42 +1,39 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     static int N, M;
     static int[] arr;
-    static StringBuilder sb;
-    static int[] select;
     static boolean[] check;
+    static StringBuilder sb;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        sb = new StringBuilder();
-
+        
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
-
-        arr = new int[N];
+        
+        arr = new int[M];
         check = new boolean[N+1];
-        select = new int[M];
 
-        select(0, 1);
-
+        sb = new StringBuilder();
+        re(0, 1);
         System.out.println(sb);
     }
 
-    static void select(int cnt, int v) {
-        if(cnt == M) {
+    static void re(int idx, int cnt) {
+        if(idx == M) {
             for(int i = 0; i < M; i++) {
-                sb.append(select[i]).append(" ");
+                sb.append(arr[i]).append(" ");
             }
             sb.append("\n");
             return;
         }
         
-        for(int i = v; i <= N; i++) {
-            select[cnt] = i;
-            select(cnt+1, i);
+        for(int i = cnt; i <= N; i++) {
+            arr[idx] = i;
+            re(idx+1, i);
         }
     }
 }
