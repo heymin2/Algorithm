@@ -26,21 +26,31 @@ public class Main {
                 b[i] = Integer.parseInt(st.nextToken());
             }
 
-            Arrays.sort(a);
             Arrays.sort(b);
 
             int result = 0;
-            for(int i = 0; i < B; i++) {
-                for(int j = 0; j < A; j++) {
-                    if(a[j] > b[i]) {
-                        result += A - j;
-                        break;
-                    }
-                }
+            for(int i = 0; i < A; i++) {
+                result += binarySearch(a[i], b);
             }
 
             sb.append(result).append("\n");
         }
         System.out.println(sb);
 	}
+
+    private static int binarySearch(int target, int[] arr) {
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left <= right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
 }
