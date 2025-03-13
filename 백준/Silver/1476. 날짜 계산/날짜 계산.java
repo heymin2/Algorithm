@@ -19,10 +19,10 @@ public class Main {
             if(m > 19) m = 1;
 
             if(e == E && s == S && m == M) {
-                break;
+                System.out.println(year);
+                return;
             }
         }
 
-        System.out.println(year);
     }
 }
