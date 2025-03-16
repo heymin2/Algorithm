@@ -14,7 +14,7 @@ public class Main {
 
         list.sort(null);
         int idx = N-1;
-        List<Integer> result = new ArrayList<>();
+        Queue<Integer> result = new ArrayDeque<>();
         while(true) {
             if(idx <= 0) break;
 
@@ -36,9 +36,7 @@ public class Main {
             long value = 0;
 
             while(result.size() > 1) {
-                value += (long) result.get(0) * result.get(1);
-                result.remove(0);
-                result.remove(0);
+                value += (long) result.poll() * result.poll();
             }
 
             System.out.println(value);
