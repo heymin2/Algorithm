@@ -5,36 +5,43 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-
-        TreeMap<Integer, Integer> countMap = new TreeMap<>(Collections.reverseOrder());
+        
+        List<Integer> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        for (int i = 0; i < N; i++) {
-            int length = Integer.parseInt(st.nextToken());
-            countMap.put(length, countMap.getOrDefault(length, 0) + 1);
+        for(int i = 0; i < N; i++) {
+            list.add(Integer.parseInt(st.nextToken()));
         }
 
-        List<Integer> keys = new ArrayList<>(countMap.keySet());
-        List<Integer> sides = new ArrayList<>();
+        list.sort(null);
+        int idx = N-1;
+        List<Integer> result = new ArrayList<>();
+        while(true) {
+            if(idx <= 0) break;
 
-        for (int key : keys) {
-            int cnt = countMap.get(key);
-            
-            while (cnt >= 2) {
-                sides.add(key);
-                cnt -= 2;
+            if(list.get(idx).equals(list.get(idx-1))) {
+                result.add(list.get(idx));
+                idx -= 2;
+            }
+            else if(list.get(idx) -1 == list.get(idx-1)) {
+                result.add(list.get(idx) -1);
+                idx -= 2;
+            }
+            else {
+                idx--;
+            }
+        }
+
+        if(result.size() == 0) System.out.println(0);
+        else {
+            long value = 0;
+
+            while(result.size() > 1) {
+                value += (long) result.get(0) * result.get(1);
+                result.remove(0);
+                result.remove(0);
             }
 
-            if (cnt == 1 && key > 2) {
-                countMap.put(key - 1, countMap.getOrDefault(key - 1, 0) + 1);
-            }
+            System.out.println(value);
         }
-
-        long maxArea = 0;
-        for (int i = 0; i + 1 < sides.size(); i += 2) {
-            maxArea += (long) sides.get(i) * sides.get(i + 1);
-        }
-
-        System.out.println(maxArea);
     }
 }
