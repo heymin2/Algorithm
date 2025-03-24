@@ -2,100 +2,77 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-  public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-    StringTokenizer st;
+    static class Room {
+        char type;
+        int money;
+        List<Integer> paths = new ArrayList<>();
+    }
 
-    int size;
-    ArrayList<ArrayList<Integer>> al;
-    int[] visit;
+    static Room[] rooms;
+    static boolean[] visited;
+    static boolean success;
+    static int n;
 
-    while (true) {
-      st = new StringTokenizer(br.readLine());
-      size = Integer.parseInt(st.nextToken());
-      al = new ArrayList<>();
-      visit = new int[size + 1];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-      if (size == 0) {
-        break;
-      }
-
-      for (int i = 0; i <= size; ++i) {
-        ArrayList<Integer> temp = new ArrayList<>();
-        al.add(temp);
-        visit[i] = -1;
-      }
-
-      for (int i = 1; i <= size; ++i) {
-        st = new StringTokenizer(br.readLine());
-
-        String s = st.nextToken();
-        int type = s.equals("E") ? 0 : s.equals("L") ? 1 : 2;
-        int value = Integer.parseInt(st.nextToken());
-        al.get(i).add(type);
-        al.get(i).add(value);
         while (true) {
-          int next = Integer.parseInt(st.nextToken());
-          if (next == 0) {
-            break;
-          }
+            n = Integer.parseInt(br.readLine());
+            if (n == 0) break;
 
-          al.get(i).add(next);
-        }
-      }
+            rooms = new Room[n + 1];
+            visited = new boolean[n + 1];
+            success = false;
 
-      Queue<Pair> q = new LinkedList<>();
-      String result = "No";
-
-      if (al.get(1).get(0) != 2) {
-        q.add(new Pair(1, al.get(1).get(1)));
-      }
-      while (!q.isEmpty()) {
-        int index = q.peek().index;
-        int money = q.peek().money;
-        q.poll();
-
-        for (int i = 2; i < al.get(index).size(); ++i) {
-          int next = al.get(index).get(i);
-          int type = al.get(next).get(0);
-          int value = al.get(next).get(1);
-
-          int nextMoney = 0;
-          if (type == 1) {
-            nextMoney = Math.max(money, value);
-          } else {
-            nextMoney = money - value;
-          }
-
-          if (visit[next] >= nextMoney || nextMoney < 0) {
-            continue;
-          }
-
-          if (next == size) {
-            result = "Yes";
-            while (!q.isEmpty()) {
-              q.poll();
+            for (int i = 1; i <= n; i++) {
+                st = new StringTokenizer(br.readLine());
+                Room room = new Room();
+                room.type = st.nextToken().charAt(0);
+                room.money = Integer.parseInt(st.nextToken());
+                while (true) {
+                    int next = Integer.parseInt(st.nextToken());
+                    if (next == 0) break;
+                    room.paths.add(next);
+                }
+                rooms[i] = room;
             }
-            break;
-          }
 
-          visit[next] = nextMoney;
-          q.add(new Pair(next, nextMoney));
+            if (rooms[1].type == 'T') {
+                success = false;
+            } else {
+                int startMoney = rooms[1].type == 'L' ? rooms[1].money : 0;
+                visited[1] = true;
+                dfs(1, startMoney);
+            }
+
+            System.out.println(success ? "Yes" : "No");
         }
-      }
-      bw.write(result + "\n");
     }
-    bw.close();
-  }
 
-  static public class Pair {
-    int index;
-    int money;
+    static void dfs(int current, int coin) {
+        if (success) return;
+        if (coin < 0) return;
+        if (current == n) {
+            success = true;
+            return;
+        }
 
-    public Pair(int index, int money) {
-      this.index = index;
-      this.money = money;
+        for (int next : rooms[current].paths) {
+            if (!visited[next]) {
+                int nextCoin = coin;
+
+                if (rooms[next].type == 'L' && nextCoin < rooms[next].money) {
+                    nextCoin = rooms[next].money;
+                } else if (rooms[next].type == 'T') {
+                    nextCoin -= rooms[next].money;
+                    if (nextCoin < 0) continue;
+                }
+
+                visited[next] = true;
+                dfs(next, nextCoin);
+                visited[next] = false;
+            }
+        }
     }
-  }
 }
