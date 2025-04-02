@@ -51,8 +51,7 @@ public class Main {
         x = find(x);
         y = find(y);
 
-        if(x > y) parent[y] = x;
-        else parent[x] = y;
+        parent[x] = y;
     }
 
     static int find(int x) {
