@@ -17,20 +17,22 @@ public class Main {
         }
 
         int max = Math.min(M, N);
-
-        while(max != 0) {
-            for(int i = 0; i <= N - max; i++) {
-                for(int j = 0; j <= M - max; j++) {
-                    if(arr[i][j] == arr[i][j+max-1] &&
-                    arr[i][j+max-1] == arr[i+max-1][j] && 
-                    arr[i+max-1][j] == arr[i+max-1][j+max-1]) {
-                        System.out.println(max * max);
-                        return;
+        if(max == 1) System.out.println(1);
+        else {
+            while(max != 0) {
+                for(int i = 0; i <= N - max; i++) {
+                    for(int j = 0; j <= M - max; j++) {
+                        if(arr[i][j] == arr[i][j+max-1] &&
+                        arr[i][j+max-1] == arr[i+max-1][j] && 
+                        arr[i+max-1][j] == arr[i+max-1][j+max-1]) {
+                            System.out.println(max * max);
+                            return;
+                        }
                     }
                 }
+    
+                max--;
             }
-
-            max--;
         }
     }
 }
