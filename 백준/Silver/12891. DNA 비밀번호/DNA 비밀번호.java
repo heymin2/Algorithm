@@ -2,56 +2,56 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
+    static int[] required = new int[4];  // 최소 조건
+    static int[] current = new int[4];   // 현재 윈도우 상태
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int S = Integer.parseInt(st.nextToken());
-        int P = Integer.parseInt(st.nextToken());
-      
+
+        int S = Integer.parseInt(st.nextToken()); // 전체 문자열 길이
+        int P = Integer.parseInt(st.nextToken()); // 윈도우 길이
         String str = br.readLine();
 
-        int[] arr = new int[4];
         st = new StringTokenizer(br.readLine());
-        arr[0] = Integer.parseInt(st.nextToken());
-        arr[1] = Integer.parseInt(st.nextToken());
-        arr[2] = Integer.parseInt(st.nextToken());
-        arr[3] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < 4; i++) {
+            required[i] = Integer.parseInt(st.nextToken());
+        }
 
-        int[] newArr = new int[4];
-
-        for(int i = 0; i < P; i++) {
-            if(str.charAt(i) == 'A') newArr[0]++;
-            else if(str.charAt(i) == 'C') newArr[1]++;
-            else if(str.charAt(i) == 'G') newArr[2]++;
-            else if(str.charAt(i) == 'T') newArr[3]++;
+        // 초기 윈도우
+        for (int i = 0; i < P; i++) {
+            current[charToIndex(str.charAt(i))]++;
         }
 
         int result = 0;
-        if(arr[0] <= newArr[0] && arr[1] <= newArr[1] &&
-            arr[2] <= newArr[2] && arr[3] <= newArr[3]) {
-            result++;
-        }
+        if (isValid()) result++;
 
-        for(int i = P; i < S; i++) {
-            // 맨 앞 제거
-            if(str.charAt(i-P) == 'A') newArr[0]--;
-            else if(str.charAt(i-P) == 'C') newArr[1]--;
-            else if(str.charAt(i-P) == 'G') newArr[2]--;
-            else if(str.charAt(i-P) == 'T') newArr[3]--;
+        // 슬라이딩 윈도우
+        for (int i = P; i < S; i++) {
+            current[charToIndex(str.charAt(i - P))]--; // 앞 문자 제거
+            current[charToIndex(str.charAt(i))]++;     // 새 문자 추가
 
-            // 맨 뒤 추가
-            if(str.charAt(i) == 'A') newArr[0]++;
-            else if(str.charAt(i) == 'C') newArr[1]++;
-            else if(str.charAt(i) == 'G') newArr[2]++;
-            else if(str.charAt(i) == 'T') newArr[3]++;
-
-            // 계산
-            if(arr[0] <= newArr[0] && arr[1] <= newArr[1] &&
-            arr[2] <= newArr[2] && arr[3] <= newArr[3]) {
-                result++;
-            }
+            if (isValid()) result++;
         }
 
         System.out.println(result);
+    }
+
+    static int charToIndex(char c) {
+        switch (c) {
+            case 'A': return 0;
+            case 'C': return 1;
+            case 'G': return 2;
+            case 'T': return 3;
+        }
+        return -1; // 절대 도달하지 않음
+    }
+
+    static boolean isValid() {
+        for (int i = 0; i < 4; i++) {
+            if (current[i] < required[i]) return false;
+        }
+        return true;
     }
 }
