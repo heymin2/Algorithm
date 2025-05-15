@@ -1,84 +1,57 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    static int S, P, result = 0;
-    static int[] str, check;
-    static char[] part;
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        int S = Integer.parseInt(st.nextToken());
+        int P = Integer.parseInt(st.nextToken());
+      
+        String str = br.readLine();
 
-        S = Integer.parseInt(st.nextToken());
-        P = Integer.parseInt(st.nextToken());
-
-        check = new int[4];
-        part = new char[P];
-
-        String DNA = br.readLine();
-
+        int[] arr = new int[4];
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < 4; i++) {
-            check[i] = Integer.parseInt(st.nextToken());
+        arr[0] = Integer.parseInt(st.nextToken());
+        arr[1] = Integer.parseInt(st.nextToken());
+        arr[2] = Integer.parseInt(st.nextToken());
+        arr[3] = Integer.parseInt(st.nextToken());
+
+        int[] newArr = new int[4];
+
+        for(int i = 0; i < P; i++) {
+            if(str.charAt(i) == 'A') newArr[0]++;
+            else if(str.charAt(i) == 'C') newArr[1]++;
+            else if(str.charAt(i) == 'G') newArr[2]++;
+            else if(str.charAt(i) == 'T') newArr[3]++;
         }
 
-        str = new int[4];
-
-        for (int i = 0; i < P; i++) {
-            if (DNA.charAt(i) == 'A')
-                str[0]++;
-            else if (DNA.charAt(i) == 'C')
-                str[1]++;
-            else if (DNA.charAt(i) == 'G')
-                str[2]++;
-            else
-                str[3]++;
-        }
-
-        if (check_num(str, check)) {
+        int result = 0;
+        if(arr[0] <= newArr[0] && arr[1] <= newArr[1] &&
+            arr[2] <= newArr[2] && arr[3] <= newArr[3]) {
             result++;
         }
 
-        int idx = 0;
+        for(int i = P; i < S; i++) {
+            // 맨 앞 제거
+            if(str.charAt(i-P) == 'A') newArr[0]--;
+            else if(str.charAt(i-P) == 'C') newArr[1]--;
+            else if(str.charAt(i-P) == 'G') newArr[2]--;
+            else if(str.charAt(i-P) == 'T') newArr[3]--;
 
-        for (int i = P; i < S; i++) {
-            if (DNA.charAt(idx) == 'A')
-                str[0]--;
-            else if (DNA.charAt(idx) == 'C')
-                str[1]--;
-            else if (DNA.charAt(idx) == 'G')
-                str[2]--;
-            else
-                str[3]--;
-            idx++;
+            // 맨 뒤 추가
+            if(str.charAt(i) == 'A') newArr[0]++;
+            else if(str.charAt(i) == 'C') newArr[1]++;
+            else if(str.charAt(i) == 'G') newArr[2]++;
+            else if(str.charAt(i) == 'T') newArr[3]++;
 
-            if (DNA.charAt(i % S) == 'A')
-                str[0]++;
-            else if (DNA.charAt(i % S) == 'C')
-                str[1]++;
-            else if (DNA.charAt(i % S) == 'G')
-                str[2]++;
-            else
-                str[3]++;
-
-            if (check_num(str, check)) {
+            // 계산
+            if(arr[0] <= newArr[0] && arr[1] <= newArr[1] &&
+            arr[2] <= newArr[2] && arr[3] <= newArr[3]) {
                 result++;
             }
         }
 
         System.out.println(result);
-    }
-
-    static boolean check_num(int[] str, int[] check) {
-        for (int i = 0; i < 4; i++) {
-            if (check[i] > str[i]) {
-                return false;
-            }
-        }
-        return true;
     }
 }
