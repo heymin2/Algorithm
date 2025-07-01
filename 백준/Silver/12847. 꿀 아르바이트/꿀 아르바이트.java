@@ -10,21 +10,19 @@ public class Main {
 
         int[] money = new int[n];
         st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             money[i] = Integer.parseInt(st.nextToken());
         }
 
-        long max = 0;
-        for(int i = 0; i < m; i++) {
-            max += money[i];
-        }
-
-        long result = max;
-        for(int i = m; i < n; i++) {
-            result -= money[i - m];
-            result += money[i];
-            
-            max = Math.max(max, result);
+        long sum = 0, max = 0;
+        for (int i = 0; i < n; i++) {
+            sum += money[i];
+            if (i >= m) {
+                sum -= money[i - m];
+            }
+            if (i >= m - 1) {
+                max = Math.max(max, sum);
+            }
         }
 
         System.out.println(max);
